@@ -1,0 +1,22 @@
+---
+# Fail2Ban
+- include: fail2ban-RedHat.yml
+  when: ansible_os_family == 'RedHat'
+  become: yes
+
+- include: fail2ban-Debian.yml
+  when: ansible_os_family == 'Debian'
+  become: yes
+
+- name: Ensure fail2ban is running and enabled on boot.
+  service: name=fail2ban state=started enabled=yes
+  become: yes
+
+# Autoupdate
+- include: autoupdate-RedHat.yml
+  when: ansible_os_family == 'RedHat' and security_autoupdate_enabled
+  become: yes
+
+- include: autoupdate-Debian.yml
+  when: ansible_os_family == 'Debian' and security_autoupdate_enabled
+  become: yes

@@ -1,0 +1,5 @@
+- name: test security
+  hosts: all
+  roles:
+    - linux-security
+  become: yes
