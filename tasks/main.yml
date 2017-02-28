@@ -24,15 +24,19 @@
 # Random CIS stuff
 - name: CIS 1.4.1 Set User/Group Owner on bootloader config
   file: path=/boot/grub/grub.cfg follow=yes owner=root group=root mode=0400
+  become: yes
 
 - name: CIS 1.5.1 Restrict Core Dumps (Scored) - using sysctl
   sysctl: name=fs.suid_dumpable value=0 ignoreerrors=yes sysctl_set=yes reload=yes state=present
+  become: yes
 
 - name: 5.2.4 Disable SSH X11 Forwarding (Scored)
   lineinfile: dest=/etc/ssh/sshd_config regexp="^X11Forwarding" line="X11Forwarding no" state=present
   notify: restart ssh
+  become: yes
   
 - name: 5.2.5 Set SSH MaxAuthTries to 4 or Less (Scored)
   lineinfile: dest=/etc/ssh/sshd_config regexp="^MaxAuthTries" line="MaxAuthTries 4" state=present
   notify: restart ssh
+  become: yes
 
