@@ -25,6 +25,7 @@
 - name: CIS 1.4.1 Set User/Group Owner on bootloader config
   file: path=/boot/grub/grub.cfg follow=yes owner=root group=root mode=0400
   become: yes
+  when: ansible_os_family == 'Debian'
 
 - name: CIS 1.5.1 Restrict Core Dumps (Scored) - using sysctl
   sysctl: name=fs.suid_dumpable value=0 ignoreerrors=yes sysctl_set=yes reload=yes state=present
