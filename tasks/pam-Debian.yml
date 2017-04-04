@@ -39,7 +39,7 @@
       regexp: '^password\s+\S+\s+pam_unix.so'
       line: 'password sufficient pam_unix.so sha512'
 
-- command: grep -oP '(?<=^PASS_MAX_DAYS\s)[0-9]+' /etc/login.defs
+  - command: grep -oP '(?<=^PASS_MAX_DAYS\s)[0-9]+' /etc/login.defs
     register: pass_max_days
     changed_when: False
     check_mode: no
