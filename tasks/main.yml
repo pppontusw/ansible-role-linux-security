@@ -54,3 +54,6 @@
   with_items:
     - ntfs-3g
     - eject
+
+- include: coredumps.yml
+  become: yes

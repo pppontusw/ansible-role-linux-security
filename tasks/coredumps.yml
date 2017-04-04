@@ -1,0 +1,19 @@
+  - command: grep "hard core" /etc/security/limits.conf
+    register: hard_core
+    failed_when: False
+    changed_when: False
+
+  - name: 1.5.1 Ensure core dumps are restricted (Scored)
+    lineinfile:
+      dest: '/etc/security/limits.conf'
+      line: '* hard core 0'
+      state: present
+      insertbefore: '^# End of file'
+    when: hard_core.rc != 0
+
+  - name: 1.5.1 Ensure core dumps are restricted (Scored)
+    sysctl:
+      name: fs.suid_dumpable
+      value: 0
+      state: present
+    when: restrict_core_dumps == True
