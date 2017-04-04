@@ -10,10 +10,3 @@
       state: present
       insertbefore: '^# End of file'
     when: hard_core.rc != 0
-
-  - name: 1.5.1 Ensure core dumps are restricted (Scored)
-    sysctl:
-      name: fs.suid_dumpable
-      value: 0
-      state: present
-    when: restrict_core_dumps == True
