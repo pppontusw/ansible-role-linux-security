@@ -60,3 +60,37 @@
 
 - include: network-hardening.yml
   become: yes
+
+- name: remove world readability from some logs
+  file:
+    path: /var/log/{{item}}
+    mode: 0640
+  become: yes
+  when: ansible_os_family == 'Debian'
+  ignore_errors: yes
+  with_items:
+    - aptitude
+    - awslogs
+    - lastlog
+    - logstatus
+    - wtmp
+    - cloud-init.log
+    - cloud-init-output.log
+    - awslogs.log
+    - awslogs-agent-setup.log
+    - dpkg.log
+
+- name: remove world readability from some logs
+  file:
+    path: /var/log/{{item}}
+    mode: 0750
+  become: yes
+  when: ansible_os_family == 'Debian'
+  ignore_errors: yes
+  with_items:
+    - dist-upgrade
+    - fsck
+    - nginx
+    - ntpstats
+    - lxd
+    - apt
