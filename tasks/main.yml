@@ -41,7 +41,7 @@
   notify: restart ssh
   become: yes
 
-- name: Remove unnecessary suid/sgid binaries
+- name: Remove unnecessary suid/sgid binaries (nixu)
   apt:
     - name: "{{item}}"
       state: absent
