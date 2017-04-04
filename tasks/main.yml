@@ -41,3 +41,6 @@
   notify: restart ssh
   become: yes
 
+- include: pam-Debian.yml
+  when: ansible_os_family == 'Debian'
+  become: yes
