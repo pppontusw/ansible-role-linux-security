@@ -1,0 +1,13 @@
+- name: install ufw
+  apt: name=ufw state=present
+
+- name: set up ufw port rules
+  ufw: 
+    rule: allow
+    port: "{{item}}"
+  with_items: "{{ufw_allow_ports}}"
+
+- ufw:
+    rule: allow
+    src: "{{item}}"
+  with_items: "{{ufw_allow_networks}}"
