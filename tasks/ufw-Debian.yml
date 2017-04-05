@@ -28,11 +28,5 @@
     - reload ufw
 
 - ufw:
-    logging: on
-  become: yes
-  notify:
-    - reload ufw
-
-- ufw:
     state: enabled
   become: yes
