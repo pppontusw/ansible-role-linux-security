@@ -63,3 +63,7 @@
 
 - include: logging.yml
   become: yes
+
+- include: ufw-Debian.yml
+  when: ansible_os_family == 'Debian'
+  become: yes
