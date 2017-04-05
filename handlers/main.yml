@@ -3,3 +3,7 @@
 - name: restart ssh
   service: name=ssh state=restarted
   become: yes
+
+- name: reload ufw
+  ufw: state=reloaded
+  become: yes

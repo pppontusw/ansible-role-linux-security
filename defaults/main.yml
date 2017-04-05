@@ -3,7 +3,7 @@ epel_repo_gpg_key_url: "/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-{{ ansible_distributio
 
 disable_ipv6: yes
 
-ufw_allow_ports:
+ufw_allow_tcp_ports:
   - 22
 
 ufw_allow_networks:
