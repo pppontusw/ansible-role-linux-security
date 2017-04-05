@@ -1,0 +1,50 @@
+- name: find logs
+  find: 
+    paths: /var/log
+    file_type: file
+  register: logs
+
+- name: find logdirs
+  find: 
+    paths: /var/log
+    file_type: directory
+  register: logdirs
+
+- name: remove world readability from logs
+  file:
+    path: "{{item.path}}"
+    mode: 0640
+  become: yes
+  when: "{{item.mode}} != 0640"
+  with_items: "{{logs.files}}"
+
+- name: remove world readability from log directories
+  file:
+    path: "{{item.path}}"
+    mode: 0750
+    recurse: yes
+    state: directory
+  become: yes
+  when: "{{item.mode}} != 0750"
+  with_items: "{{logdirs.files}}"
+
+- name: remove world readability from logrotate
+  replace: 
+    dest: /etc/logrotate.conf 
+    regexp: '([6-7])([0-7])[4-7]'
+    replace: '\g<1>\g<2>0'
+  become: yes
+
+- name: find logrotate files
+  find: 
+    paths: /etc/logrotate.d/
+    file_type: file
+  register: logrotated
+
+- name: remove world readability from logrotate.d/*
+  replace:
+    dest: "{{item.path}}"
+    regexp: '([6-7])([0-7])[4-7]'
+    replace: '\g<1>\g<2>0'
+  become: yes
+  with_items: "{{logrotated.files}}"
