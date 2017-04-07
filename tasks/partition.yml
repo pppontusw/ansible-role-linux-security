@@ -9,8 +9,6 @@
 - name: 2.2 - 4 Set nodev, nosuid, noexec Options for /tmp Partition (Scored)
   mount: name="/tmp" src="/tmp" state="mounted" opts="defaults,nodev,nosuid,noexec" fstype=ext4
   when: partitioning == True
-    - section2.3
-    - section2.4
 
 - name: 2.5 Create Separate Partition for /var (Scored)
   command: grep '\s/var\s' /etc/fstab
