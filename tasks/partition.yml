@@ -49,3 +49,4 @@
 - name: 2.10 Add nodev Option to /home (Scored)
   mount: name="/home" src="/home" state=mounted opts=defaults,nodev fstype="ext4"
   when: partitioning == True
+
