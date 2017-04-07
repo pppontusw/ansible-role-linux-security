@@ -67,3 +67,7 @@
 - include: ufw-Debian.yml
   when: ansible_os_family == 'Debian'
   become: yes
+
+- include: partition.yml
+  when: ansible_os_family == 'Debian'
+  become: yes
