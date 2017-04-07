@@ -1,46 +1,3 @@
-Linux Security
-=========
-
-This role will: 
-
-1. Install and configure AutoUpdate
-
-2. Install and enable Fail2Ban
-
-3. Set User/Group Owner on bootloader config
-
-4. Restrict Core Dumps - using sysctl
-
-5.  Disable SSH X11 Forwarding
-  
-6. Set SSH MaxAuthTries to 4 
-
-And some Nixu audit stuff
-
-
-### IMPORTANT
-IF PARTITIONING IS SET TO ON YOU NEED TO FIRST CREATE THE PARTITIONS:
-
-1. Expand the disk with 20GB
-
-2. Log in to the server and switch to root ```sudo su root```
-
-3. Create the below partitions using ```cfdisk /dev/xvda```
-
-```
-/dev/xvda2 3G primary
-/dev/xvda3 5G primary
-/dev/xvda4 12G extended
-/dev/xvda5 5G primary
-/dev/xvda6 2G primary
-/dev/xvda7 5G primary
-```
-
-4. Run ```partprobe /dev/xvda``` to reload the kernel partition table
-
-5. Run the partition.sh script and then reboot
-
-```
 if grep "xvda2" /etc/fstab; then
 	echo "xvda2 is already specified in /etc/fstab, please double check what is going on"
 	exit 1
@@ -107,32 +64,3 @@ echo "/dev/xvda2      /tmp    ext4    rw    0 0
 /dev/xvda7     /home   ext4    rw    0 0" >> /etc/fstab
 
 echo "You will now need to reboot the server in order for everything to work with your new partition structure, when the server boots and everything works you can safely delete /bak"
-```
-
-
-
-Variables
-------------
-
-```
----
-# defaults file for ansible-role-linux-security/
-epel_repo_url: "https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ ansible_distribution_major_version }}.noarch.rpm"
-epel_repo_gpg_key_url: "/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-{{ ansible_distribution_major_version }}"
-security_autoupdate_enabled: true
-```
-
-
-Requirements
-------------
-
-Debian or RedHat based linux distro
-
-
-Example Playbook
-----------------
-
-    - hosts: tag_Os_Ubuntu_16_04
-      roles:
-        - linux-security
-
