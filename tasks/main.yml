@@ -65,7 +65,7 @@
   become: yes
 
 - include: ufw-Debian.yml
-  when: ansible_os_family == 'Debian'
+  when: ansible_os_family == 'Debian' and hostfirewall
   become: yes
 
 - include: partition.yml
