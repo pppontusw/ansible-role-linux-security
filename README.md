@@ -25,7 +25,7 @@ IF PARTITIONING IS SET TO ON YOU NEED TO FIRST CREATE THE PARTITIONS:
 
 2. Log in to the server and switch to root ```sudo su root```
 
-3. Copy, chmod +x and run the the script partition.sh which will partition the disk and migrate /tmp /var /var/log /var/log/audit and /home to new partitions
+3. Copy, chmod +x and run the the script called partition.sh (in the files folder) which will partition the disk and migrate /tmp /var /var/log /var/log/audit and /home to new partitions
 
 4. Reboot
 

@@ -1,3 +1,9 @@
+#- name: Partition the disk
+#  script: files/partition.sh
+#  register: partition_disk
+#  when: partitioning == True
+#  failed_when: partition_disk.rc == 1
+
 - name: 2.1 Create Separate Partition for /tmp (Scored)
   command: grep '\s/tmp\s' /etc/fstab
   register: tmp_partition
