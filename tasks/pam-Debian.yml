@@ -1,0 +1,77 @@
+  - name: 5.3.1 Ensure password creation requirements are configured (Scored)
+    apt:
+      name: libpam-pwquality
+      state: present
+
+  - name: 5.3.1 Ensure password creation requirements are configured (Scored)
+    lineinfile:
+      name: /etc/security/pwquality.conf
+      regexp: '^{{item.name}}'
+      line: '{{item.name}}={{item.value}}'
+    with_items:
+      - { name: 'minlen' , value: '14' }
+      - { name: 'dcredit' , value: '-1' }
+      - { name: 'ucredit' , value: '-1' }
+      - { name: 'ocredit' , value: '-1' }
+      - { name: 'lcredit' , value: '-1' }
+
+  - name: 5.3.1 Ensure password creation requirements are configured (Scored)
+    lineinfile:
+      name: /etc/pam.d/common-password
+      regexp: 'pam_pwquality.so'
+      line: 'password        requisite                       pam_pwquality.so try_first_pass retry=3'
+
+  - name: 5.3.2 Ensure lockout for failed password attempts is configured (Not Scored)
+    lineinfile:
+      name: /etc/pam.d/common-auth
+      regexp: 'pam_tally2'
+      line: 'auth required pam_tally2.so onerr=fail audit silent deny=5 unlock_time=900'
+
+  - name: 5.3.3 Ensure password reuse is limited (Scored)
+    lineinfile:
+      name: /etc/pam.d/common-password
+      regexp: '^password\s+sufficient\s+pam_unix.so'
+      line: 'password sufficient pam_unix.so remember=5'
+
+  - name: 5.3.4 Ensure password hashing algorithm is SHA-512 (Scored)
+    lineinfile:
+      name: /etc/pam.d/common-password
+      regexp: '^password\s+\S+\s+pam_unix.so'
+      line: 'password sufficient pam_unix.so sha512'
+
+  - command: grep -oP '(?<=^PASS_MAX_DAYS\s)[0-9]+' /etc/login.defs
+    register: pass_max_days
+    changed_when: False
+    check_mode: no
+
+  - name: 5.4.1.1 Ensure password expiration is 90 days or less (Scored)
+    lineinfile:
+      dest: /etc/login.defs
+      line: 'PASS_MAX_DAYS 90'
+      regexp: '^PASS_MAX_DAYS'
+    when: pass_max_days.stdout|int > 90
+
+  - command: grep -oP '(?<=^PASS_MIN_DAYS\s)[0-9]+' /etc/login.defs
+    register: pass_min_days
+    changed_when: False
+    check_mode: no
+
+  - name: 5.4.1.2 Ensure minimum days between password changes is 7 or more (Scored)
+    lineinfile:
+      dest: /etc/login.defs
+      line: 'PASS_MIN_DAYS 7'
+      regexp: '^PASS_MIN_DAYS'
+    when: pass_min_days.stdout|int < 7
+
+  - command: grep -oP '(?<=^PASS_WARN_AGE\s)[0-9]+' /etc/login.defs
+    register: pass_warn_age
+    changed_when: False
+    check_mode: no
+
+  - name: 5.4.1.3 Ensure password expiration warning days is 7 or more (Scored)
+    lineinfile:
+      dest: /etc/login.defs
+      line: 'PASS_WARN_AGE 7'
+      regexp: '^PASS_WARN_AGE'
+    when: pass_warn_age.stdout|int < 7
+

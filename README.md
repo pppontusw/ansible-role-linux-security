@@ -15,6 +15,20 @@ This role will:
   
 6. Set SSH MaxAuthTries to 4 
 
+And some Nixu audit stuff
+
+
+### IMPORTANT
+IF PARTITIONING IS SET TO ON YOU NEED TO FIRST CREATE THE PARTITIONS:
+
+1. Expand the disk with 20GB
+
+2. Log in to the server and switch to root ```sudo su root```
+
+3. Copy, chmod +x and run the the script called partition.sh (in the files folder) which will partition the disk and migrate /tmp /var /var/log /var/log/audit and /home to new partitions
+
+4. Reboot
+
 
 Variables
 ------------

@@ -41,3 +41,33 @@
   notify: restart ssh
   become: yes
 
+- include: pam-Debian.yml
+  when: ansible_os_family == 'Debian'
+  become: yes
+
+- name: Remove unnecessary suid/sgid binaries (nixu)
+  apt:
+    name: "{{item}}"
+    state: absent
+  when: ansible_os_family == 'Debian'
+  become: yes
+  with_items:
+    - ntfs-3g
+    - eject
+
+- include: coredumps.yml
+  become: yes
+
+- include: network-hardening.yml
+  become: yes
+
+- include: logging.yml
+  become: yes
+
+- include: ufw-Debian.yml
+  when: ansible_os_family == 'Debian' and hostfirewall
+  become: yes
+
+- include: partition.yml
+  when: ansible_os_family == 'Debian'
+  become: yes
