@@ -42,7 +42,7 @@
   become: yes
 
 - include: pam-Debian.yml
-  when: ansible_os_family == 'Debian'
+  when: ansible_os_family == 'Debian' and not ignore_pam
   become: yes
 
 - name: Remove unnecessary suid/sgid binaries (nixu)
