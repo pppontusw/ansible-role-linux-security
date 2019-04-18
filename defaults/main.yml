@@ -14,3 +14,5 @@ ufw_allow_networks:
 partitioning: False
 
 hostfirewall: no
+
+ignore_pam: yes
